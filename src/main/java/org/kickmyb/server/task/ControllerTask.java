@@ -41,6 +41,14 @@ public class ControllerTask {
         return "";
     }
 
+    @GetMapping("/api/delete/{id}")
+    public @ResponseBody String delete() {
+        System.out.println("KICKB SERVER : Delete");
+        ConfigHTTP.attenteArticifielle();
+        MUser user = currentUser();
+        return "";
+    }
+
     @GetMapping("/api/home")
     public @ResponseBody List<HomeItemResponse> home() {
         System.out.println("KICKB SERVER : Task list  with cookie");

@@ -1,16 +1,21 @@
 package org.kickmyb.server.task;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.joda.time.DateTime;
 import org.kickmyb.server.account.MUser;
 import org.kickmyb.server.account.MUserRepository;
 import org.kickmyb.transfer.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static java.sql.DriverManager.println;
 
 @Component
 @Transactional
@@ -89,6 +94,22 @@ public class ServiceTaskImpl implements ServiceTask {
         repoProgressEvent.save(pe);
         element.events.add(pe);
         repo.save(element);
+    }
+
+    @Override
+    public void delete(long id, MUser user) {
+        if (!user.tasks.isEmpty()) {
+            try{
+                boolean removed = user.tasks.removeIf(task -> task.id.equals(id));
+                if (removed) {
+                    //empêcher le CRASH lorsque cette merde arrive
+                    repo.deleteById(id);
+                }
+            }
+            catch(Throwable e){
+                println("Exception");
+            }
+        }
     }
 
     @Override

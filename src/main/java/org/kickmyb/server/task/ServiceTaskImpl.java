@@ -101,8 +101,10 @@ public class ServiceTaskImpl implements ServiceTask {
         if (!user.tasks.isEmpty()) {
             try{
                 boolean removed = user.tasks.removeIf(task -> task.id.equals(id));
+                repoUser.saveAndFlush(user);
                 if (removed) {
                     //empêcher le CRASH lorsque cette merde arrive
+
                     repo.deleteById(id);
                 }
             }

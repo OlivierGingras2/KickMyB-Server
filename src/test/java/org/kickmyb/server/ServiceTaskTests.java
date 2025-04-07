@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Fail.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -66,6 +67,9 @@ class ServiceTaskTests {
 
         List<HomeItemResponse> tasksBeforeDelete = serviceTask.home(u.id);
         assertEquals(1, tasksBeforeDelete.size());
+
+        u = serviceTask.userFromUsername(u.username);
+        u2 = serviceTask.userFromUsername(u2.username);
 
         HomeItemResponse taskToDelete = serviceTask.home(u.id).get(0);
         serviceTask.delete(taskToDelete.id, u2);

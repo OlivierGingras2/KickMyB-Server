@@ -42,10 +42,11 @@ public class ControllerTask {
     }
 
     @GetMapping("/api/delete/{id}")
-    public @ResponseBody String delete() {
+    public @ResponseBody String delete(@PathVariable long id) {
         System.out.println("KICKB SERVER : Delete");
         ConfigHTTP.attenteArticifielle();
         MUser user = currentUser();
+        serviceTask.delete(id, user);
         return "";
     }
 

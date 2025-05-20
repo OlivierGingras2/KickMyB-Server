@@ -86,7 +86,9 @@ public class ServiceTaskImpl implements ServiceTask {
     @Override
     public void updateProgress(long taskID, int value) {
         MTask element = repo.findById(taskID).get();
-        // TODO validate value is between 0 and 100
+
+        if(user.tasks.contains(element)){
+      // TODO validate value is between 0 and 100
         MProgressEvent pe= new MProgressEvent();
         pe.resultPercentage = value;
         pe.completed = value ==100;
@@ -94,6 +96,7 @@ public class ServiceTaskImpl implements ServiceTask {
         repoProgressEvent.save(pe);
         element.events.add(pe);
         repo.save(element);
+        }  
     }
 
     @Override

@@ -84,7 +84,7 @@ public class ServiceTaskImpl implements ServiceTask {
     }
 
     @Override
-    public void updateProgress(long taskID, int value) {
+    public void updateProgress(long taskID, int value, MUser user) {
         MTask element = repo.findById(taskID).get();
 
         if(user.tasks.contains(element)){
